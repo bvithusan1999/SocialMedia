@@ -1,22 +1,38 @@
-version: '3.7'
+version: '3'
 
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "5000:5000"
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/mern-app
-      - PORT=5000
-    depends_on:
-      - mongo
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-
   mongo:
     image: mongo:4.4.3
     ports:
       - "27017:27017"
+    networks:
+      - socialmedia-network
+
+  backend:
+    image: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    expose:
+      - "5000"
+    networks:
+      - socialmedia-network
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/mern-app
+      - PORT=5000
+
+  frontend:
+    image: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - socialmedia-network
+
+networks:
+  socialmedia-network:
+    driver: bridge 

@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                git 'https://github.com/bvithusan1999/SocialMedia.git'
+                git 'https://github.com/bvithusan1999/SocialMedia.git', branch : 'main'
             }
         }
         stage('Build Docker images') {

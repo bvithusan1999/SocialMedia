@@ -20,7 +20,7 @@ services:
     networks:
       - socialmedia-network
     environment:
-      - MONGO_URI=mongodb://mongo:27017/mern-app
+      - MONGO_URI=mongodb://localhost:27017/mern-app
       - PORT=5000
 
   frontend:
@@ -35,4 +35,4 @@ services:
 
 networks:
   socialmedia-network:
-    driver: bridge 
+    driver: bridge

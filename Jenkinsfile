@@ -2,28 +2,21 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Clone repository') {
             steps {
-                checkout scm
+                git 'https://github.com/bvithusan1999/SocialMedia.git'
             }
         }
-
-        stage('Deploy') {
+        stage('Build Docker images') {
             steps {
-                sh '''
-                    docker-compose down
-                    docker-compose up -d
-                '''
+                sh 'docker-compose build'
             }
         }
-    }
-
-    post {
-        success {
-            echo 'Build and deployment successful!'
-        }
-        failure {
-            echo 'Build or deployment failed!'
+        stage('Deploy with Docker Compose') {
+            steps {
+                sh 'docker-compose down'
+                sh 'docker-compose up -d'
+            }
         }
     }
 }

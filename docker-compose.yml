@@ -1,38 +1,39 @@
-version: '3'
+version: '3.8'
 
 services:
   mongo:
-    image: mongo:4.4.3
+    image: mongo:latest
+    container_name: mongo
+    networks:
+      - mern-net
     ports:
       - "27017:27017"
-    networks:
-      - socialmedia-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
   backend:
-    image: backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: ./backend
+    container_name: backend
+    networks:
+      - mern-net
     ports:
       - "5000:5000"
-    expose:
-      - "5000"
-    networks:
-      - socialmedia-network
+    depends_on:
+      - mongo
     environment:
       - MONGO_URI=mongodb://mongo:27017/mern-app
-      - PORT=5000
 
   frontend:
-    image: frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    build: ./frontend
+    container_name: frontend
+    networks:
+      - mern-net
     ports:
       - "3000:3000"
-    networks:
-      - socialmedia-network
+    depends_on:
+      - backend
 
 networks:
-  socialmedia-network:
+  mern-net:
     driver: bridge

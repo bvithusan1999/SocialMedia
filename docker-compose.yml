@@ -30,7 +30,7 @@ services:
     networks:
       - mern-net
     ports:
-      - "3000:3000"
+      - "5173:8084"
     depends_on:
       - backend
 

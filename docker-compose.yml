@@ -10,7 +10,7 @@ services:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_PASSWORD: root
 
   backend:
     build: ./backend
@@ -22,7 +22,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/mern-app
+      - MONGO_URI=mongodb://root:root@mongo:27017/mern-app?authSource=admin
 
   frontend:
     build: ./frontend
